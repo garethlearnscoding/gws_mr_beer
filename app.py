@@ -6,5 +6,9 @@ app = Flask(__name__)
 def base():
     return render_template('base.html')
 
+@app.route('/messages')
+def displayMessages():
+    return render_template('./messagesTemplate/messages.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
