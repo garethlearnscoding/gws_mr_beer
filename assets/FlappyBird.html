@@ -96,15 +96,16 @@
 
   let birdY = 150;
   let birdWidth = 40
-  let gravity = Math.max(screenHeight * 0.0001, 0.3);
+  let gravity = Math.max(screenHeight * 3, 0.4);
   let velocity = 0;
   let isGameOver = false;
   let score = 0;
   let birdX = 500;
+  let lastTimestamp = 0;
   bird.style.left = birdX + "px";
 
   function jump() {
-    if (!isGameOver) velocity = -Math.max(screenHeight * 0.0015, 9);
+    if (!isGameOver) velocity = -Math.max(screenHeight * 0.7, 9);
   }
 
   document.addEventListener("keydown", jump);
@@ -180,15 +181,14 @@
     if (!isGameOver) createPipe();
   }, 1600); 
 
-  function gameLoop() {
+  function gameLoop(timestamp) {
     if (isGameOver) return;
-    velocity += gravity;
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const delta = (timestamp - lastTimestamp) / 1000; // seconds elapsed since last frame
+    lastTimestamp = timestamp;
 
-    const maxFallSpeed = screenHeight * 0.02;
-  if (velocity > maxFallSpeed) velocity = maxFallSpeed;
-
-
-    birdY += velocity;
+    velocity += gravity * delta;
+    birdY += velocity * delta;
 
     if (birdY < 0) birdY = 0;
     if (birdY + 40 > game.offsetHeight) gameOver();
@@ -197,7 +197,7 @@
     requestAnimationFrame(gameLoop);
   }
 
-  gameLoop();
+  requestAnimationFrame(gameLoop);
 }
 </script>
 
