@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Flappy Bird Clone</title>
+  <title>Flappy Bird</title>
   <style>
     * {
       margin: 0;
@@ -52,7 +52,8 @@
 </head>
 <body>
   <div id="game">
-    <div id="score">Score: 0</div>
+    <div id="score">
+        <h1 style="color: #000;">Flappy Bird; Reach 10 score for a surprise!!</h1>Score: 0</div>
     <div id="bird"></div>
   </div>
 
@@ -123,9 +124,12 @@
 
         // Score update: when pipe passes bird's x=100, only once
         if (!passed && x + 60 < 100) {
-        score++;
-        scoreEl.innerText = "Score: " + score;
-        passed = true;
+            score++;
+            scoreEl.innerText = "Score: " + score;
+            passed = true;
+            if (score >= 10) {
+                window.location.href = "/messages.html";
+            }
         }
     }, 20);
 }
