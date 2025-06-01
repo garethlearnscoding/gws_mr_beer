@@ -51,6 +51,15 @@
   </style>
 </head>
 <body>
+  <div id="countdown" style="
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 80px;
+  color: white;
+  z-index: 20;
+  user-select: none;"></div>
   <div id="game">
     <div id="score">
         <h1 style="color: #000;">Flappy Bird; Reach 10 score for a surprise!!</h1>Score: 0</div>
@@ -58,15 +67,36 @@
   </div>
 
   <script>
+  const countdownEl = document.getElementById('countdown');
+  let countdownNumber = 3;
+  let countdownActive = true;
+
+  countdownEl.innerText = countdownNumber;
+
+  const countdownInterval = setInterval(() => {
+    countdownNumber--;
+    if (countdownNumber > 0) {
+      countdownEl.innerText = countdownNumber;
+    } else {
+      clearInterval(countdownInterval);
+      countdownEl.style.display = 'none';
+      countdownActive = false;
+      startGame();
+    }
+  }, 1000);
+  function startGame() {
   const bird = document.getElementById("bird");
   const game = document.getElementById("game");
   const scoreEl = document.getElementById("score");
 
   let birdY = 150;
-  let gravity = 0.25;
+  let birdWidth = 40
+  let gravity = 0.21;
   let velocity = 0;
   let isGameOver = false;
   let score = 0;
+  let birdX = 500;
+  bird.style.left = birdX + "px";
 
   function jump() {
     if (!isGameOver) velocity = -8;
@@ -106,7 +136,8 @@
 
         // Collision check
         if (
-            x < 140 && x + 60 > 100 &&  // Pipes overlapping bird's horizontal range (bird left: 100, bird right: 140)
+            x < birdX + birdWidth && 
+            x + 60 > birdX &&
             (
                 (birdY < topPipe.offsetHeight) ||                         // Bird hits top pipe vertically
                 (birdY + 40 > game.offsetHeight - bottomPipe.offsetHeight) // Bird hits bottom pipe vertically
@@ -123,7 +154,7 @@
         }
 
         // Score update: when pipe passes bird's x=100, only once
-        if (!passed && x + 60 < 100) {
+        if (!passed && x + 60 < birdX) {
             score++;
             scoreEl.innerText = "Score: " + score;
             passed = true;
@@ -157,6 +188,7 @@
   }
 
   gameLoop();
+}
 </script>
 
 </body>
