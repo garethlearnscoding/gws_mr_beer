@@ -92,10 +92,11 @@
   const bird = document.getElementById("bird");
   const game = document.getElementById("game");
   const scoreEl = document.getElementById("score");
+  const screenHeight = game.offsetHeight;
 
   let birdY = 150;
   let birdWidth = 40
-  let gravity = 0.21;
+  let gravity = Math.max(screenHeight * 0.0001, 0.3);
   let velocity = 0;
   let isGameOver = false;
   let score = 0;
@@ -103,7 +104,7 @@
   bird.style.left = birdX + "px";
 
   function jump() {
-    if (!isGameOver) velocity = -7.7;
+    if (!isGameOver) velocity = -Math.max(screenHeight * 0.0015, 9);
   }
 
   document.addEventListener("keydown", jump);
@@ -182,6 +183,11 @@
   function gameLoop() {
     if (isGameOver) return;
     velocity += gravity;
+
+    const maxFallSpeed = screenHeight * 0.02;
+  if (velocity > maxFallSpeed) velocity = maxFallSpeed;
+
+
     birdY += velocity;
 
     if (birdY < 0) birdY = 0;
