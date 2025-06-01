@@ -23,6 +23,10 @@
     #bird {
       width: 40px;
       height: 40px;
+      background-image: url('thumb.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
       background-color: yellow;
       border-radius: 50%;
       position: absolute;
@@ -99,7 +103,7 @@
   bird.style.left = birdX + "px";
 
   function jump() {
-    if (!isGameOver) velocity = -8;
+    if (!isGameOver) velocity = -7.7;
   }
 
   document.addEventListener("keydown", jump);
