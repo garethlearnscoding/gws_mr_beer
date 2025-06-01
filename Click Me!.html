@@ -74,14 +74,23 @@ while tennis:
   <p>Get well soon—we need your math hacks and debugging magic back in class!</p>
 
   <script>
-    function showAlert(){
-      if (confirm("This page was compiled with 100% pure well-wishes ❤️")) {
-        window.location.href = './assets/messages.html';
-      }
-    }
+    (function() {
+      const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+      let input = [];
+
+      window.addEventListener('keydown', function(e) {
+        input.push(e.keyCode);
+        if (input.length > konamiCode.length) {
+          input.shift();
+        }
+        if (input.toString() === konamiCode.toString()) {
+          window.location.href = "./assets/messages.html";
+        }
+      });
+    })();
   </script>
 
-  <button class="btn" onclick="showAlert()">Click for bonus healing</button>
+  <button class="btn" onclick="alert('This page was compiled with 100% pure well-wishes ❤️')">Click for bonus healing</button>
 
 </body>
 </html>
